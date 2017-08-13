@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Diagnosis point unit.
  *
  * @author Fsz
  */
@@ -32,21 +33,13 @@ public class DiagnosisPoint {
     /**
      * point consume time.
      */
-    private Long consumeTime;
-
-    /**
-     * root point flag.
-     * <p>
-     * true : yes root point. false : no root point.
-     * </p>
-     */
-    private boolean rootPoint = false;
+    private Long consumeTime = 0L;
 
     /**
      * new point.
      */
     private DiagnosisPoint prePoint;
-    
+
     /**
      * diagnosis level.
      */
@@ -55,7 +48,7 @@ public class DiagnosisPoint {
     /**
      * next point.
      */
-    private List<DiagnosisPoint> nextPoint;
+    private final List<DiagnosisPoint> nextPoint;
 
     public DiagnosisPoint(final String pointName) {
         this.pointName = pointName;
@@ -136,30 +129,6 @@ public class DiagnosisPoint {
     }
 
     /**
-     * root point flag.
-     * <p>
-     * true : yes root point. false : no root point.
-     * </p>
-     *
-     * @return the rootPoint
-     */
-    public boolean isRootPoint() {
-        return rootPoint;
-    }
-
-    /**
-     * root point flag.
-     * <p>
-     * true : yes root point. false : no root point.
-     * </p>
-     *
-     * @param rootPoint the rootPoint to set
-     */
-    public void setRootPoint(boolean rootPoint) {
-        this.rootPoint = rootPoint;
-    }
-
-    /**
      * next point.
      *
      * @return the nextPoint
@@ -197,6 +166,7 @@ public class DiagnosisPoint {
 
     /**
      * diagnosis level.
+     *
      * @return the level
      */
     public int getLevel() {
@@ -205,6 +175,7 @@ public class DiagnosisPoint {
 
     /**
      * diagnosis level.
+     *
      * @param level the level to set
      */
     public void setLevel(int level) {

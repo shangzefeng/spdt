@@ -5,34 +5,49 @@
  */
 package org.fqj.spd;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * service Diagnosis watcher.
  *
  * @author Fsz
  */
 public class Diagnosis {
-    
-    final static ThreadLocal<DiagnosisLink> diag = new ThreadLocal<>();
-    
+
+    /**
+     * diagnosis point data.
+     */
+    final static ThreadLocal<DiagnosisLink> DIAGNOSIS_ENTRY = new ThreadLocal<>();
+
+    /**
+     * one thread max diagnosis point cnt.
+     */
+    final static int MAX_DIAGNOSIS_POINT_CNT = 100;
+
+    /**
+     * start diagnosis point.
+     *
+     * @param pointName ponit name.
+     */
     public static void start(final String pointName) {
-        
+
         final DiagnosisPoint point = new DiagnosisPoint(pointName);
-        
-        DiagnosisLink diagnosisLink = diag.get();
-        
+
+        DiagnosisLink diagnosisLink = DIAGNOSIS_ENTRY.get();
+
         if (diagnosisLink == null) {
             diagnosisLink = new DiagnosisLink();
-            diag.set(diagnosisLink);
-            
-            point.setRootPoint(true);
+            DIAGNOSIS_ENTRY.set(diagnosisLink);
+
             point.setPrePoint(null);
             point.setLevel(0);
-            
+
             diagnosisLink.setRootDiagnosisPoint(point);
-            
+
         } else {
             point.setPrePoint(diagnosisLink.getCurrentPoint());
             point.setLevel(point.getPrePoint().getLevel() + 4);
@@ -40,9 +55,12 @@ public class Diagnosis {
         }
         diagnosisLink.setCurrentPoint(point);
     }
-    
+
+    /**
+     * diagnosis point end.
+     */
     public static void end() {
-        final DiagnosisLink dlk = diag.get();
+        final DiagnosisLink dlk = DIAGNOSIS_ENTRY.get();
         if (dlk == null) {
             return;
         }
@@ -53,38 +71,80 @@ public class Diagnosis {
         dp.setEndTime(System.currentTimeMillis());
         dp.setConsumeTime(dp.getEndTime() - dp.getStartTime());
         dlk.setCurrentPoint(dp.getPrePoint());
-        dlk.setTotalConsumeTime(dlk.getTotalConsumeTime() + dp.getConsumeTime());
+
+        //set pre point consume time
+        DiagnosisPoint point = dp;
+        int i = 0;
+        while (null != point || i > MAX_DIAGNOSIS_POINT_CNT) {
+            i++;
+            DiagnosisPoint prePoint = point.getPrePoint();
+            if (null == prePoint) {
+                break;
+            }
+            prePoint.setConsumeTime(prePoint.getConsumeTime() + point.getConsumeTime());
+            point = prePoint;
+        }
     }
-    
-    public static long getSpendTime() {
-        final DiagnosisLink dlk = diag.get();
+
+    /**
+     * get service total cost time.
+     *
+     * @return
+     */
+    public static long getTotalCostTime() {
+        final DiagnosisLink dlk = DIAGNOSIS_ENTRY.get();
         if (dlk == null) {
             return 0;
         }
-        return dlk.getTotalConsumeTime();
+        return dlk.getRootDiagnosisPoint().getConsumeTime();
     }
-    
-    public static String getPonitConsume() {
+
+    /**
+     * get every point cost time msg.
+     *
+     * @return
+     */
+    public static String getCostMsg() {
         final StringBuilder sb = new StringBuilder();
-        final DiagnosisLink dlk = diag.get();
+        final DiagnosisLink dlk = DIAGNOSIS_ENTRY.get();
         if (dlk == null) {
             return sb.toString();
         }
         final DiagnosisPoint rootPoint = dlk.getRootDiagnosisPoint();
-        getSubPointConsumeContext(rootPoint, sb);
+        final BigDecimal costTime = new BigDecimal(rootPoint.getConsumeTime());
+        getSubPointConsumeContext(rootPoint, sb, costTime);
         return sb.toString();
     }
-    
-    public static void getSubPointConsumeContext(final DiagnosisPoint dp, final StringBuilder sb) {
-        sb.append(StringUtils.repeat(" ", dp.getLevel())).append(dp.getPointName()).append(" [").append(dp.getConsumeTime()).append("]\n");
+
+    /**
+     * combin msg.
+     *
+     * @param dp diagnosis point.
+     * @param sb msg.
+     * @param costTime cost time.
+     */
+    public static void getSubPointConsumeContext(final DiagnosisPoint dp, final StringBuilder sb, final BigDecimal costTime) {
+
+        BigDecimal range = BigDecimal.ZERO;
+        BigDecimal pointCostTime = new BigDecimal(dp.getConsumeTime());
+
+        if (pointCostTime.compareTo(BigDecimal.ZERO) == 1) {
+            range = pointCostTime.divide(costTime, 2, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100));
+        }
+
+        sb.append(StringUtils.repeat(" ", dp.getLevel())).append(dp.getPointName()).append(" [").
+                append(dp.getConsumeTime()).append("ms    ").append(range).append("%  ]\n");
         final List<DiagnosisPoint> dps = dp.getNextPoint();
         for (Iterator<DiagnosisPoint> iterator = dps.iterator(); iterator.hasNext();) {
             DiagnosisPoint next = iterator.next();
-            getSubPointConsumeContext(next, sb);
+            getSubPointConsumeContext(next, sb, costTime);
         }
     }
-    
+
+    /**
+     * release .
+     */
     public static void release() {
-        diag.remove();
+        DIAGNOSIS_ENTRY.remove();
     }
 }

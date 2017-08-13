@@ -6,6 +6,7 @@
 package org.fqj.spd;
 
 /**
+ * Diagnosis struct.
  *
  * @author Fsz
  */
@@ -20,11 +21,6 @@ public class DiagnosisLink {
      * diagnosis current point.
      */
     private DiagnosisPoint currentPoint;
-
-    /**
-     * all points consume time.
-     */
-    private long totalConsumeTime;
 
     /**
      * diagnosis current point.
@@ -45,25 +41,8 @@ public class DiagnosisLink {
     }
 
     /**
-     * all points consume time.
-     *
-     * @return the totalConsumeTime
-     */
-    public long getTotalConsumeTime() {
-        return totalConsumeTime;
-    }
-
-    /**
-     * all points consume time.
-     *
-     * @param totalConsumeTime the totalConsumeTime to set
-     */
-    public void setTotalConsumeTime(long totalConsumeTime) {
-        this.totalConsumeTime = totalConsumeTime;
-    }
-
-    /**
      * diagnosis root point.
+     *
      * @return the rootDiagnosisPoint
      */
     public DiagnosisPoint getRootDiagnosisPoint() {
@@ -72,6 +51,7 @@ public class DiagnosisLink {
 
     /**
      * diagnosis root point.
+     *
      * @param rootDiagnosisPoint the rootDiagnosisPoint to set
      */
     public void setRootDiagnosisPoint(DiagnosisPoint rootDiagnosisPoint) {

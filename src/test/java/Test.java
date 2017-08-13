@@ -10,7 +10,7 @@ import org.fqj.spd.Diagnosis;
  *
  * @author Fsz
  */
-public class Main {
+public class Test {
 
     public static void main(String[] args) {
         try {
@@ -21,7 +21,7 @@ public class Main {
             Diagnosis.start("xxxx");
             Diagnosis.end();
             Diagnosis.end();
-             
+
             Diagnosis.start("jj");
             Thread.sleep(100);
             Diagnosis.start("mmmmm");
@@ -30,11 +30,11 @@ public class Main {
             Diagnosis.end();
             Diagnosis.end();
 
-            System.out.println(Diagnosis.getSpendTime());
-            System.out.println(Diagnosis.getPonitConsume());
+            System.out.println(Diagnosis.getCostMsg());
             Diagnosis.release();
-            
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
