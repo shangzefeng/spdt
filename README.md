@@ -22,5 +22,5 @@ Diagnosis.getCostMsg()  
 Diagnosis.release();
 
 
-# 使用sample demo
+# sample
 org.fqj.spd.Diagnosis.Test
