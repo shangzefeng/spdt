@@ -23,7 +23,7 @@ Diagnosis.release();
 
 
 # 使用实例
-**
+*** java
 public static void test() {
 
         try {
@@ -65,5 +65,5 @@ start [1002ms    100.00%  ]
     do2 .. [0ms    0%  ]
     do3 .. [1001ms    100.00%  ]
         do3 in do [501ms    50.00%  ]
-**
+***
 
