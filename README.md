@@ -23,6 +23,7 @@ Diagnosis.release();
 
 
 # 使用实例
+'<
 public static void test() {
         try {
             Diagnosis.start("start");
@@ -63,4 +64,4 @@ start [1002ms    100.00%  ]
     do3 .. [1001ms    100.00%  ]
         do3 in do [501ms    50.00%  ]
 
-
+>'
