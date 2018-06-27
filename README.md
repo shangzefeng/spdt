@@ -60,10 +60,11 @@ public static void test() {
 ```
 
 # 输出
+```
 start [1002ms    100.00%  ]
     do1 .. [0ms    0%  ]
     do2 .. [0ms    0%  ]
     do3 .. [1001ms    100.00%  ]
         do3 in do [501ms    50.00%  ]
-
+```
 
