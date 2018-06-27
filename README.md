@@ -23,7 +23,7 @@ Diagnosis.release();
 
 
 # 使用实例
-***java
+```java
 public static void test() {
 
         try {
@@ -57,7 +57,7 @@ public static void test() {
             Diagnosis.release();
         }
     }
-***
+```
 
 # 输出
 start [1002ms    100.00%  ]
