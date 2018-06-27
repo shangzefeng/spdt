@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.fqj.spdt</groupId>
     <artifactId>spdt</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <description>Service Performance diagnosis Tools: 服务性能诊断工具</description>
     <packaging>jar</packaging>
     <properties>
@@ -19,4 +19,45 @@
             <version>2.6</version>
         </dependency>
     </dependencies>
+    
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <distributionManagement>
+                <repository>
+                    <id>shusi-api</id>
+                    <url>http://dev.mvn.shusi.net:8081/nexus/content/repositories/releases</url>
+                </repository>
+            </distributionManagement>
+
+            <repositories>
+                <repository>
+                    <id>shusi</id>
+                    <url>http://dev.mvn.shusi.net:8081/nexus/content/repositories/central/</url>
+                </repository>
+
+                <repository>
+                    <id>shusi-api</id>
+                    <url>http://dev.mvn.shusi.net:8081/nexus/content/repositories/releases/</url>
+                </repository>
+
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>shusi</id>
+                    <url>http://dev.mvn.shusi.net:8081/nexus/content/repositories/central/</url>
+                </pluginRepository>
+
+                <pluginRepository>
+                    <id>shusi-api</id>
+                    <url>http://dev.mvn.shusi.net:8081/nexus/content/repositories/releases/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 </project>
