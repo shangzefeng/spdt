@@ -23,7 +23,7 @@ Diagnosis.release();
 
 
 # 使用实例
-*** java
+***java
 public static void test() {
 
         try {
