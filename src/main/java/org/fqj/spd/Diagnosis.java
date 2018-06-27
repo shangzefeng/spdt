@@ -15,6 +15,8 @@ import org.apache.commons.lang.StringUtils;
  * service Diagnosis watcher.
  *
  * @author Fsz
+ * @version 1.0.0.0, Aug 14, 2017
+ * @since 1.0.0
  */
 public class Diagnosis {
 

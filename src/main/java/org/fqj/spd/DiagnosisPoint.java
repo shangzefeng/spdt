@@ -12,6 +12,8 @@ import java.util.List;
  * Diagnosis point unit.
  *
  * @author Fsz
+ * @version 1.0.0.0, Aug 14, 2017
+ * @since 1.0.0
  */
 public class DiagnosisPoint {
 

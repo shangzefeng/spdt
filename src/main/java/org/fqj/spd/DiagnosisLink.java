@@ -9,6 +9,8 @@ package org.fqj.spd;
  * Diagnosis struct.
  *
  * @author Fsz
+ * @version 1.0.0.0, Aug 14, 2017
+ * @since 1.0.0
  */
 public class DiagnosisLink {
 

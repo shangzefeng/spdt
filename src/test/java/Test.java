@@ -1,4 +1,5 @@
 
+import java.util.logging.Logger;
 import org.fqj.spd.Diagnosis;
 
 /*
@@ -13,28 +14,38 @@ import org.fqj.spd.Diagnosis;
 public class Test {
 
     public static void main(String[] args) {
+        test();
+    }
+
+    public static void test() {
         try {
-            Diagnosis.start("main");
-            Thread.sleep(100);
-            Diagnosis.start("sleep");
-            Thread.sleep(100);
-            Diagnosis.start("xxxx");
-            Diagnosis.end();
+            Diagnosis.start("start");
+
+            Diagnosis.start("do1 ..");
+            //do1 .....
             Diagnosis.end();
 
-            Diagnosis.start("jj");
-            Thread.sleep(100);
-            Diagnosis.start("mmmmm");
-            Thread.sleep(100);
-            Diagnosis.end();
-            Diagnosis.end();
+            Diagnosis.start("do2 ..");
+            //do2 .....
             Diagnosis.end();
 
-            System.out.println(Diagnosis.getCostMsg());
-            Diagnosis.release();
+            Diagnosis.start("do3 ..");
+            //do3 .....
+            Thread.sleep(500);
+            {
+                Diagnosis.start("do3 in do");
+                Thread.sleep(500);
+                Diagnosis.end();
+            }
+            Diagnosis.end();
 
         } catch (Exception e) {
-            e.printStackTrace();
+        } finally {
+            Diagnosis.end();
+            if (Diagnosis.getTotalCostTime() > 1000) {
+                System.out.println(Diagnosis.getCostMsg());
+            }
+            Diagnosis.release();
         }
     }
 }
